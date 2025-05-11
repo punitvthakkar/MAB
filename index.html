@@ -25,8 +25,8 @@
         }
 
         html, body {
-            height: 100%;
-            overflow-x: hidden;
+            height: 100%; /* Allows body to take full height of its container (iframe) */
+            overflow-x: hidden; /* Prevent horizontal scrollbars */
         }
 
         body {
@@ -34,20 +34,18 @@
             background: var(--background-gradient);
             color: white;
             line-height: 1.6;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 10px;
+            padding: 10px; /* Padding around the content within the iframe */
+            overflow-y: auto; /* Enable vertical scrolling for the body if content exceeds iframe height */
         }
 
         .container {
             width: 100%;
-            max-width: 900px; /* Adjusted max-width for better layout */
-            margin: 20px auto;
-            min-height: 90vh;
+            max-width: 900px; 
+            margin: 20px auto; /* Horizontal centering and vertical margin */
+            min-height: calc(100vh - 40px); /* Try to fill viewport height minus body padding and own margin */
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            /* justify-content: center; Removed to allow natural top alignment if content is shorter than screen */
         }
 
         .screen {
@@ -58,13 +56,22 @@
             border-radius: 20px;
             backdrop-filter: blur(10px);
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-            padding: clamp(20px, 5vw, 40px); /* Responsive padding */
+            padding: clamp(20px, 5vw, 40px); 
             margin: 20px 0;
+            flex-grow: 1; /* Allow screen to take up space if container is flex */
+            display: flex; /* Make screen a flex container */
+            flex-direction: column; /* Stack content vertically */
+            justify-content: center; /* Center content vertically within the screen */
+        }
+        
+        .screen.active {
+            display: flex; /* Keep as flex when active */
+        }
+         /* Ensure content within screen doesn't prevent centering if screen itself is centered */
+        .screen > div { /* Target direct children like .instructions, .game-header container etc. */
+            width: 100%;
         }
 
-        .screen.active {
-            display: block;
-        }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(15px); }
@@ -155,7 +162,7 @@
         }
 
         .instructions-list li::before {
-            content: '💡'; /* Changed icon */
+            content: '💡'; 
             position: absolute;
             left: 0;
             font-size: 1.1em;
@@ -200,11 +207,11 @@
         /* Game Screen */
         .game-header {
             display: flex;
-            justify-content: space-around; /* Changed for better spacing */
+            justify-content: space-around; 
             align-items: center;
             margin-bottom: 35px;
             padding: 15px;
-            background: rgba(0,0,0, 0.1); /* Darker accent */
+            background: rgba(0,0,0, 0.1); 
             border-radius: 15px;
             flex-wrap: wrap;
             gap: 15px;
@@ -228,7 +235,7 @@
             font-weight: 600;
             color: var(--primary-color);
         }
-         #bestLeverObserved { /* Renamed ID for clarity */
+         #bestLeverObserved { 
             color: var(--warning-color);
         }
 
@@ -236,7 +243,7 @@
         .arms-container {
             display: flex;
             justify-content: center;
-            gap: clamp(20px, 5vw, 50px); /* Responsive gap */
+            gap: clamp(20px, 5vw, 50px); 
             margin: 40px 0;
             flex-wrap: wrap;
             min-height: 180px;
@@ -244,8 +251,8 @@
         }
 
         .arm {
-            width: clamp(100px, 20vw, 120px); /* Responsive width */
-            height: clamp(140px, 28vw, 160px); /* Responsive height */
+            width: clamp(100px, 20vw, 120px); 
+            height: clamp(140px, 28vw, 160px); 
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
@@ -270,19 +277,19 @@
 
         .arm-color {
             width: 100%;
-            height: 65%; /* Adjusted for balance */
+            height: 65%; 
             position: absolute;
             top: 0;
             left: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: clamp(30px, 8vw, 40px); /* Responsive font size */
+            font-size: clamp(30px, 8vw, 40px); 
         }
 
         .arm-label {
             position: absolute;
-            bottom: 35px; /* Adjusted for stats */
+            bottom: 35px; 
             font-weight: 600;
             font-size: 1em;
         }
@@ -313,7 +320,7 @@
             display: none;
             align-items: center;
             justify-content: center;
-            border-radius: 15px; /* Match arm border-radius */
+            border-radius: 15px; 
             z-index: 10;
         }
 
@@ -330,7 +337,7 @@
         }
 
         .success { color: var(--success-color); }
-        .failure { color: #aaa; } /* Softer failure color */
+        .failure { color: #aaa; } 
 
         /* Results Screen */
         .results h1 { margin-bottom: 30px; }
@@ -348,13 +355,13 @@
 
         .metrics-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Adjusted minmax */
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
             gap: 20px;
             margin: 30px 0;
         }
 
         .metric-card {
-            background: rgba(0,0,0, 0.1); /* Darker accent */
+            background: rgba(0,0,0, 0.1); 
             padding: 20px;
             border-radius: 12px;
             border: 1px solid rgba(255, 255, 255, 0.05);
@@ -369,11 +376,12 @@
 
         .charts-section { margin: 40px 0; }
         .chart-container {
-            background: rgba(0,0,0, 0.1); /* Darker accent */
+            background: rgba(0,0,0, 0.1); 
             padding: 25px;
             border-radius: 12px;
             margin-bottom: 25px;
             position: relative;
+            min-height: 300px; /* Ensure chart containers have a minimum height */
         }
         .chart-title {
             position: absolute;
@@ -386,7 +394,7 @@
 
         .personality-insights {
             text-align: left;
-            background: rgba(0,0,0, 0.1); /* Darker accent */
+            background: rgba(0,0,0, 0.1); 
             padding: 20px;
             border-radius: 12px;
             margin: 30px 0;
@@ -411,7 +419,7 @@
             margin-bottom: 30px;
         }
         .overview-card {
-            background: rgba(0,0,0, 0.1); /* Darker accent */
+            background: rgba(0,0,0, 0.1); 
             padding: 18px;
             border-radius: 12px;
             text-align: center;
@@ -427,7 +435,7 @@
             .metrics-grid { grid-template-columns: 1fr; }
             .navigation-buttons { flex-direction: column; align-items: stretch; }
             .nav-btn, .btn { width: 100%; margin-bottom: 10px;}
-            .btn { padding: 15px 20px; } /* Ensure buttons are tappable */
+            .btn { padding: 15px 20px; } 
             .arms-container { gap: 20px; }
             .arm { width: 90px; height: 130px; }
         }
@@ -438,6 +446,8 @@
             .arm-stats { font-size: 0.7em; height: 25px;}
             .difficulty-buttons { flex-direction: column; }
             .difficulty-btn { width: 100%; margin-bottom: 8px; }
+            .chart-container { padding: 15px; min-height: 250px;} /* Adjust chart padding for small screens */
+            .chart-title { left: 15px; font-size: 0.9em;}
         }
 
     </style>
@@ -445,7 +455,7 @@
 <body>
     <div class="container">
         <div id="instructionsScreen" class="screen active">
-            <div class="instructions">
+            <div> {/* Content wrapper for flex centering */}
                 <h1>🎰 Decision Explorer</h1>
                 <p class="instructions-text">Welcome! Test your decision-making by choosing levers to maximize your score.</p>
                 
@@ -474,132 +484,140 @@
         </div>
         
         <div id="gameScreen" class="screen">
-            <div class="game-header">
-                <div class="game-stat">
-                    <span class="stat-label">Score</span>
-                    <span class="stat-value" id="currentScore">0</span>
-                </div>
-                <div class="game-stat">
-                    <span class="stat-label">Pull</span>
-                    <span class="stat-value" id="trialCounter">0 / 25</span>
-                </div>
-                <div class="game-stat">
-                    <span class="stat-label">Observed Best</span>
-                    <span class="stat-value" id="bestLeverObserved">?</span>
-                </div>
-            </div>
-            
-            <div class="arms-container" id="armsContainer">
-                <div class="arm arm-red" id="armRed" onclick="selectArm('red')">
-                    <div class="arm-color">🔴</div>
-                    <div class="arm-label">Red</div>
-                    <div class="arm-stats" id="redStats">0/0 (0%)</div>
-                    <div class="outcome-overlay" id="redOutcome"><div class="outcome-text"></div></div>
+            <div> {/* Content wrapper for flex centering */}
+                <div class="game-header">
+                    <div class="game-stat">
+                        <span class="stat-label">Score</span>
+                        <span class="stat-value" id="currentScore">0</span>
+                    </div>
+                    <div class="game-stat">
+                        <span class="stat-label">Pull</span>
+                        <span class="stat-value" id="trialCounter">0 / 25</span>
+                    </div>
+                    <div class="game-stat">
+                        <span class="stat-label">Observed Best</span>
+                        <span class="stat-value" id="bestLeverObserved">?</span>
+                    </div>
                 </div>
                 
-                <div class="arm arm-blue" id="armBlue" onclick="selectArm('blue')">
-                    <div class="arm-color">🔵</div>
-                    <div class="arm-label">Blue</div>
-                    <div class="arm-stats" id="blueStats">0/0 (0%)</div>
-                    <div class="outcome-overlay" id="blueOutcome"><div class="outcome-text"></div></div>
+                <div class="arms-container" id="armsContainer">
+                    <div class="arm arm-red" id="armRed" onclick="selectArm('red')">
+                        <div class="arm-color">🔴</div>
+                        <div class="arm-label">Red</div>
+                        <div class="arm-stats" id="redStats">0/0 (0%)</div>
+                        <div class="outcome-overlay" id="redOutcome"><div class="outcome-text"></div></div>
+                    </div>
+                    
+                    <div class="arm arm-blue" id="armBlue" onclick="selectArm('blue')">
+                        <div class="arm-color">🔵</div>
+                        <div class="arm-label">Blue</div>
+                        <div class="arm-stats" id="blueStats">0/0 (0%)</div>
+                        <div class="outcome-overlay" id="blueOutcome"><div class="outcome-text"></div></div>
+                    </div>
+                    
+                    <div class="arm arm-green" id="armGreen" onclick="selectArm('green')">
+                        <div class="arm-color">🟢</div>
+                        <div class="arm-label">Green</div>
+                        <div class="arm-stats" id="greenStats">0/0 (0%)</div>
+                        <div class="outcome-overlay" id="greenOutcome"><div class="outcome-text"></div></div>
+                    </div>
                 </div>
-                
-                <div class="arm arm-green" id="armGreen" onclick="selectArm('green')">
-                    <div class="arm-color">🟢</div>
-                    <div class="arm-label">Green</div>
-                    <div class="arm-stats" id="greenStats">0/0 (0%)</div>
-                    <div class="outcome-overlay" id="greenOutcome"><div class="outcome-text"></div></div>
-                </div>
+                 <p style="font-size: 0.85em; opacity: 0.7; margin-top: 20px;">
+                    <strong>Note:</strong> 'Observed Best' is based on *your* pulls so far. The true best lever is for you to find!
+                </p>
             </div>
-             <p style="font-size: 0.85em; opacity: 0.7; margin-top: 20px;">
-                <strong>Note:</strong> 'Observed Best' is based on *your* pulls so far. The true best lever is for you to find!
-            </p>
         </div>
         
         <div id="resultsScreen" class="screen">
-            <h1>🏆 Your Decision Profile</h1>
-            <div class="personality-type" id="personalityType">Calculating...</div>
-            
-            <div class="metrics-grid">
-                <div class="metric-card">
-                    <div class="metric-title">Total Score</div>
-                    <div class="metric-value" id="finalScore">-</div>
-                    <div class="metric-insight" id="scoreInsight">-</div>
+             <div> {/* Content wrapper for flex centering */}
+                <h1>🏆 Your Decision Profile</h1>
+                <div class="personality-type" id="personalityType">Calculating...</div>
+                
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-title">Total Score</div>
+                        <div class="metric-value" id="finalScore">-</div>
+                        <div class="metric-insight" id="scoreInsight">-</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-title">Exploration Rate</div>
+                        <div class="metric-value" id="explorationRate">-</div>
+                        <div class="metric-insight" id="explorationInsight">-</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-title">Optimal Choices</div>
+                        <div class="metric-value" id="optimalChoices">-</div>
+                        <div class="metric-insight" id="optimalInsight">-</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-title">Learning Speed</div>
+                        <div class="metric-value" id="learningSpeed">-</div>
+                        <div class="metric-insight" id="learningInsight">-</div>
+                    </div>
                 </div>
-                <div class="metric-card">
-                    <div class="metric-title">Exploration Rate</div>
-                    <div class="metric-value" id="explorationRate">-</div>
-                    <div class="metric-insight" id="explorationInsight">-</div>
+                
+                <div class="charts-section">
+                    <div class="chart-container">
+                        <div class="chart-title">Choice Pattern Over Time</div>
+                        <canvas id="choiceChart"></canvas> {/* Removed fixed height, rely on aspect ratio and container */}
+                    </div>
+                    <div class="chart-container">
+                        <div class="chart-title">Performance Analysis</div>
+                        <canvas id="performanceChart"></canvas> {/* Removed fixed height */}
+                    </div>
                 </div>
-                <div class="metric-card">
-                    <div class="metric-title">Optimal Choices</div>
-                    <div class="metric-value" id="optimalChoices">-</div>
-                    <div class="metric-insight" id="optimalInsight">-</div>
+                
+                <div class="personality-insights">
+                    <h3>🧠 Your Decision Psychology</h3>
+                    <p id="personalityDescription">Analysis pending...</p>
                 </div>
-                <div class="metric-card">
-                    <div class="metric-title">Learning Speed</div>
-                    <div class="metric-value" id="learningSpeed">-</div>
-                    <div class="metric-insight" id="learningInsight">-</div>
+                
+                <div class="navigation-buttons">
+                    <button class="nav-btn" onclick="viewHistory()">📊 View History</button>
+                    <button class="nav-btn" onclick="returnToStart()">🔄 New Game (New Difficulty)</button>
+                    <button class="btn" onclick="exportResults()">💾 Export Results</button>
                 </div>
-            </div>
-            
-            <div class="charts-section">
-                <div class="chart-container">
-                    <div class="chart-title">Choice Pattern Over Time</div>
-                    <canvas id="choiceChart" height="280"></canvas>
-                </div>
-                <div class="chart-container">
-                    <div class="chart-title">Performance Analysis</div>
-                    <canvas id="performanceChart" height="280"></canvas>
-                </div>
-            </div>
-            
-            <div class="personality-insights">
-                <h3>🧠 Your Decision Psychology</h3>
-                <p id="personalityDescription">Analysis pending...</p>
-            </div>
-            
-            <div class="navigation-buttons">
-                <button class="nav-btn" onclick="viewHistory()">📊 View History</button>
-                <button class="nav-btn" onclick="returnToStart()">🔄 New Game (New Difficulty)</button>
-                <button class="btn" onclick="exportResults()">💾 Export Results</button>
             </div>
         </div>
         
         <div id="historyScreen" class="screen history-screen">
-            <h1>📈 Your Progress Journey</h1>
-            <div id="noHistoryMessage" style="display: none; margin-bottom: 20px;">No game history found. Play a game to see your progress!</div>
-            <div class="history-overview">
-                <div class="overview-card">
-                    <div class="overview-value" id="totalGamesPlayed">0</div>
-                    <div class="overview-label">Games Played</div>
+            <div> {/* Content wrapper for flex centering */}
+                <h1>📈 Your Progress Journey</h1>
+                <div id="noHistoryMessage" style="display: none; margin-bottom: 20px;">No game history found. Play a game to see your progress!</div>
+                <div class="history-overview">
+                    <div class="overview-card">
+                        <div class="overview-value" id="totalGamesPlayed">0</div>
+                        <div class="overview-label">Games Played</div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="overview-value" id="averageScore">0</div>
+                        <div class="overview-label">Average Score</div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="overview-value" id="bestGameScore">0</div> 
+                        <div class="overview-label">Best Score</div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="overview-value" id="latestPersonality">-</div> 
+                        <div class="overview-label">Latest Profile</div>
+                    </div>
                 </div>
-                <div class="overview-card">
-                    <div class="overview-value" id="averageScore">0</div>
-                    <div class="overview-label">Average Score</div>
+                
+                <div class="history-charts">
+                    <div class="chart-container">
+                        <div class="chart-title">Score Evolution</div>
+                        <canvas id="scoreHistoryChart"></canvas> {/* Removed fixed height */}
+                    </div>
+                    <div class="chart-container">
+                        <div class="chart-title">Decision Strategy Evolution</div>
+                        <canvas id="strategyHistoryChart"></canvas> {/* Removed fixed height */}
+                    </div>
                 </div>
-                <div class="overview-card">
-                    <div class="overview-value" id="bestGameScore">0</div> <div class="overview-label">Best Score</div>
+                
+                <div class="navigation-buttons">
+                    <button class="nav-btn" onclick="showScreen('resultsScreen')">📊 Current Results</button>
+                    <button class="btn" onclick="returnToStart()">🏠 New Game Setup</button>
                 </div>
-                <div class="overview-card">
-                    <div class="overview-value" id="latestPersonality">-</div> <div class="overview-label">Latest Profile</div>
-                </div>
-            </div>
-            
-            <div class="history-charts">
-                <div class="chart-container">
-                    <div class="chart-title">Score Evolution</div>
-                    <canvas id="scoreHistoryChart" height="280"></canvas>
-                </div>
-                <div class="chart-container">
-                    <div class="chart-title">Decision Strategy Evolution</div>
-                    <canvas id="strategyHistoryChart" height="280"></canvas>
-                </div>
-            </div>
-            
-            <div class="navigation-buttons">
-                <button class="nav-btn" onclick="showScreen('resultsScreen')">📊 Current Results</button>
-                <button class="btn" onclick="returnToStart()">🏠 New Game Setup</button>
             </div>
         </div>
     </div>
@@ -612,17 +630,14 @@
         const DIFFICULTY_CONFIGS = {
             easy: {
                 name: 'Easy Mode',
-                // Probabilities: One high, one medium, one low
                 probabilities: [0.75, 0.50, 0.25] 
             },
             medium: {
                 name: 'Medium Mode',
-                // Probabilities: Closer together, making it harder to distinguish
                 probabilities: [0.60, 0.45, 0.30] 
             },
             hard: {
                 name: 'Hard Mode',
-                // Probabilities: Very close, and lower overall
                 probabilities: [0.45, 0.35, 0.25]
             }
         };
@@ -631,20 +646,20 @@
         let gameState = {
             currentTrial: 0,
             score: 0,
-            armProbabilities: {}, // e.g., { red: 0.8, blue: 0.5, green: 0.2 }
+            armProbabilities: {}, 
             armStats: {
                 red: { pulls: 0, rewards: 0 },
                 blue: { pulls: 0, rewards: 0 },
                 green: { pulls: 0, rewards: 0 }
             },
-            trialsData: [], // Renamed from 'trials' to avoid conflict
+            trialsData: [], 
             startTime: null,
-            gameActive: false, // Renamed from 'isActive'
-            selectedDifficulty: null, // Stores 'easy', 'medium', or 'hard'
-            actualBestArm: null // Stores the color of the arm with the highest true probability
+            gameActive: false, 
+            selectedDifficulty: null, 
+            actualBestArm: null 
         };
 
-        // Chart instances to destroy before redrawing
+        // Chart instances
         let choiceChartInstance = null;
         let performanceChartInstance = null;
         let scoreHistoryChartInstance = null;
@@ -655,29 +670,29 @@
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
-            loadGameHistory(); // Load history early if needed, though display is on demand
-            // Initial UI setup for arms (optional, if you want them to show 0/0 (0%) from the start)
+            loadGameHistory(); 
             updateArmStatsDisplays();
+            // Set aspect ratio for charts to help with responsiveness
+            Chart.defaults.maintainAspectRatio = false; 
         });
         
         // --- Difficulty Selection ---
         function selectDifficulty(difficultyKey, clickedButton) {
             gameState.selectedDifficulty = difficultyKey;
-            // Update button styles
             document.querySelectorAll('.difficulty-btn').forEach(btn => btn.classList.remove('selected'));
             clickedButton.classList.add('selected');
-            startGameBtn.disabled = false; // Enable start button
+            startGameBtn.disabled = false; 
             console.log(`Difficulty selected: ${difficultyKey}`);
         }
 
         // --- Game Flow ---
         function startGame() {
             if (!gameState.selectedDifficulty) {
-                alert("Please select a difficulty level first!"); // Should not happen if button is disabled
+                alert("Please select a difficulty level first!"); 
                 return;
             }
             console.log("Starting game with difficulty:", gameState.selectedDifficulty);
-            resetGameState(); // This will call generateGameProbabilities
+            resetGameState(); 
             showScreen('gameScreen');
             gameState.gameActive = true;
             enableArms();
@@ -685,7 +700,7 @@
         }
         
         function resetGameState() {
-            generateGameProbabilities(); // Sets armProbabilities based on selectedDifficulty
+            generateGameProbabilities(); 
             
             gameState.currentTrial = 0;
             gameState.score = 0;
@@ -696,24 +711,22 @@
             };
             gameState.trialsData = [];
             gameState.startTime = Date.now();
-            gameState.gameActive = false; // Will be set to true in startGame after this
+            gameState.gameActive = false; 
             
-            // Reset UI elements for a new game
             document.getElementById('currentScore').textContent = '0';
             document.getElementById('trialCounter').textContent = `0 / ${TOTAL_TRIALS}`;
             document.getElementById('bestLeverObserved').textContent = '?';
-            updateArmStatsDisplays(); // Reset arm stats display like "0/0 (0%)"
+            updateArmStatsDisplays(); 
         }
 
         function generateGameProbabilities() {
             if (!gameState.selectedDifficulty || !DIFFICULTY_CONFIGS[gameState.selectedDifficulty]) {
                 console.error("Difficulty not set or invalid for probability generation.");
-                // Default to easy or handle error
                 gameState.selectedDifficulty = 'easy'; 
             }
 
             const configProbabilities = DIFFICULTY_CONFIGS[gameState.selectedDifficulty].probabilities;
-            const shuffledProbabilities = shuffleArray([...configProbabilities]); // Shuffle to assign randomly to colors
+            const shuffledProbabilities = shuffleArray([...configProbabilities]); 
             
             const arms = ['red', 'blue', 'green'];
             gameState.armProbabilities = {
@@ -722,7 +735,6 @@
                 [arms[2]]: shuffledProbabilities[2]
             };
             
-            // Determine the actual best arm (for analysis later, not shown to player)
             gameState.actualBestArm = Object.keys(gameState.armProbabilities).reduce((a, b) => 
                 gameState.armProbabilities[a] > gameState.armProbabilities[b] ? a : b
             );
@@ -741,7 +753,7 @@
         function selectArm(color) {
             if (!gameState.gameActive) return;
             
-            gameState.gameActive = false; // Prevent multiple clicks while processing
+            gameState.gameActive = false; 
             disableArms();
             
             gameState.currentTrial++;
@@ -755,14 +767,14 @@
                 gameState.score++;
             }
             
-            showOutcomeFeedback(color, isSuccess); // Renamed for clarity
-            updateArmStatsDisplays(); // Renamed for clarity
+            showOutcomeFeedback(color, isSuccess); 
+            updateArmStatsDisplays(); 
             
             const trialRecord = {
                 number: gameState.currentTrial,
                 arm: color,
                 success: isSuccess,
-                reactionTime: Date.now() - trialStartTime, // This is more of processing time here
+                reactionTime: Date.now() - trialStartTime, 
                 timestamp: Date.now(),
                 currentScore: gameState.score
             };
@@ -776,14 +788,13 @@
                     gameState.gameActive = true;
                     enableArms();
                 }
-            }, 900); // Increased timeout for outcome visibility
+            }, 900); 
         }
 
         function endGame() {
             gameState.gameActive = false;
             disableArms();
             console.log("Game ended. Final state:", gameState);
-            // Delay showing results slightly to let the last outcome animation finish
             setTimeout(() => {
                  console.log("Calling processAndShowResults");
                  processAndShowResults();
@@ -821,7 +832,7 @@
             document.getElementById('trialCounter').textContent = 
                 `${gameState.currentTrial} / ${TOTAL_TRIALS}`;
             
-            if (gameState.currentTrial >= 3) { // Show observed best after a few trials
+            if (gameState.currentTrial >= 3) { 
                 const observedBest = getObservedBestArm();
                 document.getElementById('bestLeverObserved').textContent = 
                     observedBest ? (observedBest.charAt(0).toUpperCase() + observedBest.slice(1)) : '?';
@@ -830,7 +841,7 @@
         
         function getObservedBestArm() {
             let bestArm = null;
-            let bestRate = -1; // Start with -1 to handle arms with 0 pulls correctly
+            let bestRate = -1; 
             let maxPulls = 0;
 
             ['red', 'blue', 'green'].forEach(color => {
@@ -842,7 +853,6 @@
                         bestArm = color;
                         maxPulls = stats.pulls;
                     } else if (rate === bestRate) {
-                        // Tie-breaking: prefer arm with more pulls, or stick with current if pulls are equal
                         if (stats.pulls > maxPulls) {
                             bestArm = color;
                             maxPulls = stats.pulls;
@@ -850,7 +860,6 @@
                     }
                 }
             });
-             // If all arms have 0 pulls or 0% success rate, return null or a default
             if (bestRate === 0 && Object.values(gameState.armStats).every(s => s.pulls === 0 || s.rewards === 0)) {
                 return null;
             }
@@ -870,7 +879,6 @@
             console.log("Processing results. Game state:", JSON.parse(JSON.stringify(gameState)));
             if (!gameState.trialsData || gameState.trialsData.length === 0) {
                 console.error("No trial data to process for results.");
-                // Display a message on the results screen if this happens
                 document.getElementById('personalityType').textContent = "Error";
                 document.getElementById('personalityDescription').textContent = "No game data recorded. Cannot display results.";
                 showScreen('resultsScreen');
@@ -881,26 +889,24 @@
             console.log("Calculated metrics:", analysis);
             
             displayPerformanceMetrics(analysis);
-            const personality = determinePlayerPersonality(analysis); // Renamed for clarity
+            const personality = determinePlayerPersonality(analysis); 
             displayPersonalityInsights(personality);
             
-            destroyCharts(); // Destroy old charts before creating new ones
-            createAllCharts(); // Renamed for clarity
+            destroyCharts(); 
+            createAllCharts(); 
             
-            saveCurrentGameData(analysis, personality); // Save after all calculations
+            saveCurrentGameData(analysis, personality); 
             showScreen('resultsScreen');
             console.log("Results screen should be visible with data.");
         }
         
         function calculatePerformanceMetrics() {
             const totalPulls = gameState.trialsData.length;
-            if (totalPulls === 0) return { /* default empty metrics */ };
+            if (totalPulls === 0) return { accuracy:0, explorationRate:0, optimalRate:0, learningSpeed:'N/A', trialsToOptimal:0, finalScore:0, totalPulls:0 };
 
             const score = gameState.score;
             const accuracy = totalPulls > 0 ? Math.round((score / totalPulls) * 100) : 0;
             
-            // Exploration: Number of unique arms tried in the first N trials (e.g., first 10 or half)
-            // Or, number of switches. Let's use switches in the first half.
             const explorationPhaseTrials = Math.min(Math.floor(TOTAL_TRIALS / 2), totalPulls);
             const firstPhasePulls = gameState.trialsData.slice(0, explorationPhaseTrials);
             let switches = 0;
@@ -911,24 +917,19 @@
                     }
                 }
             }
-            // Exploration rate: percentage of switches in the exploration phase
-            const explorationRate = explorationPhaseTrials > 1 ? Math.round((switches / (explorationPhaseTrials -1)) * 100) : 0;
+            const explorationRate = explorationPhaseTrials > 1 ? Math.round((switches / (explorationPhaseTrials -1)) * 100) : (explorationPhaseTrials === 1 ? 0 : 100) ;
 
 
-            // Optimal choices: pulls of the *actual* best arm
             const optimalPulls = gameState.trialsData.filter(t => t.arm === gameState.actualBestArm).length;
             const optimalRate = totalPulls > 0 ? Math.round((optimalPulls / totalPulls) * 100) : 0;
             
-            // Learning speed: How many trials until consistently choosing the best arm (e.g., 3 of last 5 were best)
-            // or when the observed best arm matches the actual best arm and is chosen predominantly.
-            let trialsToOptimalConvergence = totalPulls; // Default to total trials if never converged
+            let trialsToOptimalConvergence = totalPulls; 
             for (let i = Math.min(5, totalPulls) -1; i < totalPulls; i++) {
-                // Check if last 3 out of 5 pulls were the actualBestArm
                 const recentPulls = gameState.trialsData.slice(Math.max(0, i - 4), i + 1);
-                if (recentPulls.length >=3) { // Need at least 3 pulls to check this window
+                if (recentPulls.length >=3) { 
                     const countBestArmInWindow = recentPulls.filter(p => p.arm === gameState.actualBestArm).length;
-                    if (countBestArmInWindow >= 3) { // Arbitrary: 3 out of 5 (60%)
-                         trialsToOptimalConvergence = i + 1; // i is 0-indexed, trial number is i+1
+                    if (countBestArmInWindow >= 3) { 
+                         trialsToOptimalConvergence = i + 1; 
                          break;
                     }
                 }
@@ -937,11 +938,11 @@
                                      trialsToOptimalConvergence <= Math.floor(TOTAL_TRIALS * 0.7) ? 'Moderate' : 'Slow';
             
             return {
-                accuracy, // Overall success rate
-                explorationRate, // How much they switched arms, especially early
-                optimalRate, // How often they picked the true best arm
+                accuracy, 
+                explorationRate, 
+                optimalRate, 
                 learningSpeed: learningSpeedCategory,
-                trialsToOptimal: trialsToOptimalConvergence, // Actual trial number
+                trialsToOptimal: trialsToOptimalConvergence, 
                 finalScore: score,
                 totalPulls: totalPulls
             };
@@ -962,7 +963,6 @@
         }
 
         function determinePlayerPersonality(metrics) {
-            // Ensure metrics has default values if something went wrong
             const explRate = metrics.explorationRate !== undefined ? metrics.explorationRate : 0;
             const optRate = metrics.optimalRate !== undefined ? metrics.optimalRate : 0;
             const learnSpeed = metrics.learningSpeed || 'Slow';
@@ -1002,16 +1002,14 @@
 
         function createAllCharts() {
             createChoicePatternChart();
-            createPerformanceTrendChart(); // Renamed for clarity
+            createPerformanceTrendChart(); 
         }
         
         function createChoicePatternChart() {
             const ctx = document.getElementById('choiceChart').getContext('2d');
-            if (!ctx || !gameState.trialsData) return;
+            if (!ctx || !gameState.trialsData || gameState.trialsData.length === 0) return;
 
             const trialNumbers = gameState.trialsData.map((t, i) => i + 1);
-            // Create datasets for each arm choice as a stacked bar
-            // 1 if chosen, 0 if not.
             const redChoices = gameState.trialsData.map(t => t.arm === 'red' ? 1 : 0);
             const blueChoices = gameState.trialsData.map(t => t.arm === 'blue' ? 1 : 0);
             const greenChoices = gameState.trialsData.map(t => t.arm === 'green' ? 1 : 0);
@@ -1027,7 +1025,7 @@
                     ]
                 },
                 options: {
-                    responsive: true, maintainAspectRatio: false,
+                    // maintainAspectRatio: false, // Set globally or per chart
                     plugins: { legend: { display: true, labels: { color: '#ffffff' } } },
                     scales: {
                         x: { stacked: true, title: { display: true, text: 'Trial Number', color: '#ffffff' }, ticks: { color: '#ffffff' }, grid: { color: 'rgba(255, 255, 255, 0.1)' } },
@@ -1039,9 +1037,8 @@
         
         function createPerformanceTrendChart() {
             const ctx = document.getElementById('performanceChart').getContext('2d');
-            if (!ctx || !gameState.trialsData) return;
+            if (!ctx || !gameState.trialsData || gameState.trialsData.length === 0) return;
 
-            // Cumulative success rate
             const cumulativeSuccessRates = [];
             let successesSoFar = 0;
             gameState.trialsData.forEach((trial, i) => {
@@ -1049,11 +1046,10 @@
                 cumulativeSuccessRates.push(Math.round((successesSoFar / (i + 1)) * 100));
             });
             
-            // Theoretical optimal (if one always picked the best arm from trial 1)
-            const bestArmProb = gameState.armProbabilities[gameState.actualBestArm];
-            const theoreticalOptimalRate = gameState.trialsData.map((_, i) => Math.round(bestArmProb * 100)); // Simplified: constant line for best arm's actual probability
-                                                                                                            // A more complex one would be cumulative expected score.
-                                                                                                            // For simplicity, let's show the best arm's actual win rate.
+            const bestArmProb = gameState.actualBestArm && gameState.armProbabilities[gameState.actualBestArm] !== undefined 
+                ? gameState.armProbabilities[gameState.actualBestArm] 
+                : 0;
+            const theoreticalOptimalRate = gameState.trialsData.map((_, i) => Math.round(bestArmProb * 100)); 
 
             performanceChartInstance = new Chart(ctx, {
                 type: 'line',
@@ -1066,14 +1062,14 @@
                             borderWidth: 2, fill: true, tension: 0.3
                         },
                         {
-                            label: `Best Lever's Actual Win Rate (${gameState.actualBestArm})`, data: theoreticalOptimalRate,
+                            label: `Best Lever's Actual Win Rate (${gameState.actualBestArm || 'N/A'})`, data: theoreticalOptimalRate,
                             borderColor: varGet('--success-color'), backgroundColor: 'rgba(0, 255, 136, 0.05)',
                             borderWidth: 2, borderDash: [5, 5], fill: false, tension: 0.3
                         }
                     ]
                 },
                 options: {
-                    responsive: true, maintainAspectRatio: false,
+                    // maintainAspectRatio: false,
                     plugins: { legend: { display: true, labels: { color: '#ffffff' } } },
                     scales: {
                         x: { title: { display: true, text: 'Trial Number', color: '#ffffff' }, ticks: { color: '#ffffff' }, grid: { color: 'rgba(255, 255, 255, 0.1)' } },
@@ -1083,7 +1079,6 @@
             });
         }
 
-        // Helper to get CSS variable values for charts
         function varGet(varName) {
             return getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
         }
@@ -1095,16 +1090,16 @@
                 difficulty: gameState.selectedDifficulty,
                 score: gameState.score,
                 duration: Date.now() - gameState.startTime,
-                armProbabilities: gameState.armProbabilities, // For review/debug
+                armProbabilities: gameState.armProbabilities, 
                 actualBestArm: gameState.actualBestArm,
-                trialsData: gameState.trialsData, // Full trial log
-                metrics: metrics, // Calculated metrics object
-                personality: personality.type // Just the type string
+                trialsData: gameState.trialsData, 
+                metrics: metrics, 
+                personality: personality.type 
             };
             
             let history = JSON.parse(localStorage.getItem('mabGameHistory') || '[]');
             history.push(gameRecord);
-            if (history.length > 50) history = history.slice(-50); // Keep last 50
+            if (history.length > 50) history = history.slice(-50); 
             localStorage.setItem('mabGameHistory', JSON.stringify(history));
             console.log("Game data saved to history.");
         }
@@ -1118,7 +1113,7 @@
         // --- Navigation & History Display ---
         function viewHistory() {
             showScreen('historyScreen');
-            displayFullHistory(); // Renamed for clarity
+            displayFullHistory(); 
         }
         
         function displayFullHistory() {
@@ -1127,17 +1122,19 @@
 
             if (history.length === 0) {
                 if(noHistoryMsg) noHistoryMsg.style.display = 'block';
-                // Clear overview stats if no history
                 document.getElementById('totalGamesPlayed').textContent = '0';
                 document.getElementById('averageScore').textContent = '0';
                 document.getElementById('bestGameScore').textContent = '0';
                 document.getElementById('latestPersonality').textContent = '-';
-                 // Clear charts if they exist
-                if (scoreHistoryChartInstance) scoreHistoryChartInstance.destroy();
-                if (strategyHistoryChartInstance) strategyHistoryChartInstance.destroy();
-                document.getElementById('scoreHistoryChart').getContext('2d').clearRect(0,0,document.getElementById('scoreHistoryChart').width, document.getElementById('scoreHistoryChart').height);
-                document.getElementById('strategyHistoryChart').getContext('2d').clearRect(0,0,document.getElementById('strategyHistoryChart').width, document.getElementById('strategyHistoryChart').height);
-
+                destroyCharts(); // Clear charts specifically for the history section
+                 // Attempt to clear canvas if chart instances are gone
+                ['scoreHistoryChart', 'strategyHistoryChart'].forEach(canvasId => {
+                    const canvas = document.getElementById(canvasId);
+                    if (canvas) {
+                        const ctx = canvas.getContext('2d');
+                        ctx.clearRect(0,0,canvas.width, canvas.height);
+                    }
+                });
                 return;
             }
             if(noHistoryMsg) noHistoryMsg.style.display = 'none';
@@ -1152,12 +1149,17 @@
             document.getElementById('bestGameScore').textContent = bestScore;
             document.getElementById('latestPersonality').textContent = latestPersonality;
             
+            // Destroy only history charts before recreating
+            if (scoreHistoryChartInstance) scoreHistoryChartInstance.destroy();
+            if (strategyHistoryChartInstance) strategyHistoryChartInstance.destroy();
+            scoreHistoryChartInstance = null; strategyHistoryChartInstance = null;
+
             createHistoryCharts(history);
         }
         
         function createHistoryCharts(history) {
-            if (scoreHistoryChartInstance) scoreHistoryChartInstance.destroy();
-            if (strategyHistoryChartInstance) strategyHistoryChartInstance.destroy();
+            // Ensure this function is only called when history data is available and valid.
+            if (!history || history.length === 0) return;
             createScoreHistoryChart(history);
             createStrategyHistoryChart(history);
         }
@@ -1169,7 +1171,7 @@
             const labels = history.map((_, i) => `G${i + 1}`);
             const scores = history.map(game => game.score || 0);
             
-            scoreHistoryChartInstance = new Chart(ctx, { /* ... chart config ... */ 
+            scoreHistoryChartInstance = new Chart(ctx, { 
                 type: 'line',
                 data: {
                     labels: labels,
@@ -1179,7 +1181,9 @@
                         borderWidth: 2, fill: true, tension: 0.3, pointRadius: 3, pointBackgroundColor: varGet('--primary-color')
                     }]
                 },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
+                options: { 
+                    // maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
                     scales: {
                         x: { ticks: { color: '#ffffff', autoSkipPadding: 10 }, grid: { color: 'rgba(255,255,255,0.1)' } },
                         y: { title: { display: true, text: 'Score', color: '#ffffff' }, ticks: { color: '#ffffff' }, grid: { color: 'rgba(255,255,255,0.1)' }, beginAtZero: true }
@@ -1193,11 +1197,10 @@
             if (!ctx) return;
 
             const labels = history.map((_, i) => `G${i + 1}`);
-            // Ensure metrics exist and have the properties
             const explorationRates = history.map(game => (game.metrics && game.metrics.explorationRate !== undefined) ? game.metrics.explorationRate : 0);
             const optimalRates = history.map(game => (game.metrics && game.metrics.optimalRate !== undefined) ? game.metrics.optimalRate : 0);
             
-            strategyHistoryChartInstance = new Chart(ctx, { /* ... chart config ... */ 
+            strategyHistoryChartInstance = new Chart(ctx, { 
                 type: 'line',
                 data: {
                     labels: labels,
@@ -1206,7 +1209,9 @@
                         { label: 'Optimal Choices Rate', data: optimalRates, borderColor: varGet('--success-color'), fill: false, tension: 0.3, borderWidth: 2 }
                     ]
                 },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: true, labels: { color: '#ffffff'} } },
+                options: { 
+                    // maintainAspectRatio: false,
+                    plugins: { legend: { display: true, labels: { color: '#ffffff'} } },
                     scales: {
                         x: { ticks: { color: '#ffffff', autoSkipPadding: 10 }, grid: { color: 'rgba(255,255,255,0.1)' } },
                         y: { title: { display: true, text: 'Rate (%)', color: '#ffffff' }, ticks: { color: '#ffffff' }, grid: { color: 'rgba(255,255,255,0.1)' }, min: 0, max: 100 }
@@ -1216,11 +1221,13 @@
         }
         
         function exportResults() {
-            const latestGame = loadGameHistory().pop(); // Get the most recent game for export
-            if (!latestGame) {
-                alert("No game data to export. Play a game first!");
-                return;
+            const history = loadGameHistory();
+            if (!history || history.length === 0) {
+                 alert("No game data to export. Play a game first!");
+                 return;
             }
+            const latestGame = history[history.length -1]; 
+            
             const dataToExport = {
                 gameSummary: {
                     date: latestGame.date,
@@ -1230,8 +1237,6 @@
                     personality: latestGame.personality,
                     metrics: latestGame.metrics
                 },
-                // armProbabilities: latestGame.armProbabilities, // Optional: if you want to include this for the user
-                // trialsLog: latestGame.trialsData // Optional: can be very verbose
             };
             
             const blob = new Blob([JSON.stringify(dataToExport, null, 2)], { type: 'application/json' });
@@ -1246,11 +1251,10 @@
         }
         
         function returnToStart() {
-            // Reset selected difficulty UI
             document.querySelectorAll('.difficulty-btn').forEach(btn => btn.classList.remove('selected'));
             startGameBtn.disabled = true;
-            gameState.selectedDifficulty = null; // Clear selected difficulty
-            destroyCharts(); // Clear any charts if user navigates away from results/history
+            gameState.selectedDifficulty = null; 
+            destroyCharts(); 
             showScreen('instructionsScreen');
         }
         
@@ -1262,7 +1266,7 @@
             } else {
                 console.error("Screen not found:", screenId);
             }
-            window.scrollTo(0, 0); // Scroll to top on screen change
+            window.scrollTo(0, 0); 
         }
 
     </script>
